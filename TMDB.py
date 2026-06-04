@@ -7,7 +7,7 @@ from dotenv import load_dotenv # type: ignore
 load_dotenv()
 
 api_key = os.getenv("TMDB_API_KEY")
-arquivo_limpo = "ancine_filtrada.csv"
+arquivo_limpo = "Resultado_Kinoplex_5k_Mais.csv"
 
 print("1. Puxando a base limpa da Ancine... 📚")
 df_limpo = pd.read_csv(arquivo_limpo, sep=";")
