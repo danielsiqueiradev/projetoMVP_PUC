@@ -1,0 +1,22 @@
+import pandas as pd
+
+def consertar_cagada():
+    print("🛠️ Iniciando a operação tapa-buraco...")
+    
+    # Lendo o arquivo que o Excel bagunçou (repara no sep=';')
+    df = pd.read_csv("Base_Kinoplex_ML_Final_Patched111.csv", sep=";", encoding='latin1')
+    
+    # As colunas que ganharam um zero a mais (ou perderam a casa decimal)
+    colunas_bugadas = ['rotten_tomatoes', 'yt_views', 'yt_likes', 'yt_sentiment', 'ORCAMENTO_USD']
+    
+    # Fazendo a matemática reversa: dividindo por 10 pra voltar ao normal
+    for col in colunas_bugadas:
+        df[col] = df[col] / 10.0
+        
+    # Salvando bonitinho, com vírgula padrão, e blindado com o utf-8-sig pro Excel não chiar mais
+    df.to_csv("Base_Kinoplex_ML_Final_Patched.csv", index=False, encoding='utf-8-sig')
+    
+    print("✅ Tá safo! Arquivo 'Base_Kinoplex_ML_Final_Patched.csv' restaurado com sucesso. Pode apagar o 111!")
+
+if __name__ == "__main__":
+    consertar_cagada()

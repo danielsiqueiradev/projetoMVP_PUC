@@ -2,53 +2,34 @@ import os
 import requests
 from dotenv import load_dotenv # type: ignore
 
-
+# 1. Carrega as chaves do cofre
 load_dotenv()
+OMDB_API_KEY = os.getenv("OMDB_API_KEY")
 
-api_key_tmdb = os.getenv("TMDB_API_KEY")
-api_key_omdb = os.getenv("OMDB_API_KEY")
-
-# Simulando que a gente já pescou esse ID lá no primeiro passo
-id_filme_tmdb = 1523898 
-
-print("1. Perguntando pro TMDB qual é o ID desse filme lá no concorrente (IMDb)...")
-
-# Endpoint de DETALHES do TMDB
-url_detalhes = f"https://api.themoviedb.org/3/movie/{id_filme_tmdb}?api_key={api_key_tmdb}&language=pt-BR"
-response_tmdb = requests.get(url_detalhes).json()
-
-# Puxando o ID mágico (se não tiver, ele salva como None)
-id_imdb = response_tmdb.get('imdb_id')
-
-if id_imdb:
-    print(f"Achei, cria! O RG do filme no IMDb é: {id_imdb}")
-    print("2. Batendo na OMDb direto no alvo... 🎯\n")
-    
-    # Olha o pulo do gato aqui: usamos '?i=' em vez de '?t='
-    url_omdb = f"http://www.omdbapi.com/?i={id_imdb}&apikey={api_key_omdb}"
-    response_omdb = requests.get(url_omdb).json()
-    
-    if response_omdb.get('Response') == 'True':
-        nota_imdb = response_omdb.get('imdbRating', 'N/A')
-        nota_metacritic = response_omdb.get('Metascore', 'N/A')
-        nome = response_omdb.get('Title', 'N/A')
-        ano = response_omdb.get('Year', 'N/A')
+def buscar_nota_critica(titulo):
+    """Busca a nota do Rotten Tomatoes no OMDB com chave protegida."""
+    if not OMDB_API_KEY:
+        print("❌ Erro: OMDB_API_KEY não encontrada no arquivo .env!")
+        return 0
         
-        nota_rotten = "N/A"
-        for avaliacao in response_omdb.get('Ratings', []):
-            if avaliacao['Source'] == 'Rotten Tomatoes':
-                nota_rotten = avaliacao['Value']
-                break
-                
-        print("--- 🍅 TERMÔMETRO DA CRÍTICA (À PROVA DE FALHAS) ---")
-        print(f" Nome Filme: {nome}")
-        print(f" Ano: {ano}")
-        print(f" Nota IMDb: {nota_imdb}")
-        print(f" Rotten Tomatoes: {nota_rotten}")
-        print(f" Metacritic: {nota_metacritic}")
-        print("-" * 46)
-    else:
-        print("OMDb não liberou a ficha pra esse ID.")
-else:
-    print("Deu ruim. O TMDB ainda não cadastrou o ID do IMDb pra esse filme.")
-print(response_omdb)
+    url = f"http://www.omdbapi.com/?t={titulo}&apikey={OMDB_API_KEY}"
+    
+    try:
+        resp = requests.get(url).json()
+        ratings = resp.get('Ratings', [])
+        
+        # Procura especificamente pela nota do Rotten Tomatoes
+        for r in ratings:
+            if r['Source'] == 'Rotten Tomatoes':
+                # Remove o '%' e converte pra inteiro
+                return int(r['Value'].replace('%', ''))
+        
+        return 0 # Retorna 0 se não encontrar o filme ou a nota
+    except Exception as e:
+        print(f"Deu ruim ao buscar nota do filme '{titulo}': {e}")
+        return 0
+
+# --- TESTE À VERA ---
+nome_filme = "The Batman"
+nota = buscar_nota_critica(nome_filme)
+print(f"Nota Rotten Tomatoes de '{nome_filme}': {nota}%")
