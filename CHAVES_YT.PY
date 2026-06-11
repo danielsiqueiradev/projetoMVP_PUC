@@ -13,14 +13,7 @@ load_dotenv()
 # 🚨 MALANDRAGEM: SÓ AS CHAVES ENTRE ASPAS
 # ==========================================
 CHAVES_YOUTUBE = [
-    "AIzaSyAewXN7pAhGnbIou7kIDDRvQsjGJ9I_IAs",
-    "AIzaSyDq0HbmWBIc62uOfF67xZbGG7hKylQsZsY",
-    "AIzaSyDq0HbmWBIc62uOfF67xZbGG7hKylQsZsY",
-    "AIzaSyDq0HbmWBIc62uOfF67xZbGG7hKylQsZsY",
-    "AIzaSyAY-RgEqpTrbQ1BUQc4Gme8y_lJQrA9p9g",
-    "AIzaSyAQGSb8mR-8BDwp1dc50cflwZ06RuK8LsM",
-    "AIzaSyB9DSjONJYkFF81tBtBeAdweb8Tx_bpaz0",
-    "AIzaSyDvNWHjWWFLU0QoVHMzuoaMcBx3yxyJNiA"
+    ""
 ]
 indice_chave_yt = 0
 
