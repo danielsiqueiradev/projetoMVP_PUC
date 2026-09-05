@@ -13,7 +13,14 @@ load_dotenv()
 # 🚨 MALANDRAGEM: SÓ AS CHAVES ENTRE ASPAS
 # ==========================================
 CHAVES_YOUTUBE = [
-    ""
+    "AIzaSyDq0HbmWBIc62uOfF67xZbGG7hKylQsZsY",
+    "AIzaSyAewXN7pAhGnbIou7kIDDRvQsjGJ9I_IAs",
+    "AIzaSyCSTbncXXQu77q8ntfke59qazYN62FIWBs",
+    "AIzaSyCvbvF5cb2p5TbZLjyMdcBuiXQ3CrUoCmY",
+    "AIzaSyAY-RgEqpTrbQ1BUQc4Gme8y_lJQrA9p9g",
+    "AIzaSyAQGSb8mR-8BDwp1dc50cflwZ06RuK8LsM",
+    "AIzaSyB9DSjONJYkFF81tBtBeAdweb8Tx_bpaz0",
+    "AIzaSyDvNWHjWWFLU0QoVHMzuoaMcBx3yxyJNiA"
 ]
 indice_chave_yt = 0
 
@@ -25,7 +32,7 @@ youtube = get_youtube_service()
 try:
     analisador = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
 except: pass
-OMDB_KEY = os.getenv("OMDB_API_KEY")
+OMDB_KEY = os.getenv("ca754e6")
 
 def get_omdb_rating(titulo):
     try:
